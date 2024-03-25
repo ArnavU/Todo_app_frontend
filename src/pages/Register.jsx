@@ -10,17 +10,31 @@ const Register = () => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const { isAuthenticated, setIsAuthenticated, loading, setLoading } = useContext(Context);
+	const { isAuthenticated, setIsAuthenticated, loading, setLoading, setUser } = useContext(Context);
 
 	const submitHandler = async (e) => {
 		e.preventDefault();
         setLoading(true);
 
 		console.log(name, email, password);
-
-		const { setIsAuthenticated, setUser, setLoading } = useContext(Context);
 	
-		useGetUserCredentials();
+		// useGetUserCredentials();
+
+		setLoading(true);
+		axios
+			.get(`${SERVER}/users/me`, {
+				withCredentials: true,
+			})
+			.then((res) => {
+				setUser(res.data.user);
+				setIsAuthenticated(true);
+				setLoading(false);
+			})
+			.catch((error) => {
+				setUser({});
+				setIsAuthenticated(false);
+				setLoading(false);
+			});
 
 		try {
 			const { data } = await axios.post(

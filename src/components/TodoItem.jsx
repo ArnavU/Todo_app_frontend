@@ -8,7 +8,7 @@ function TodoItem({title, description, isCompleted, updateHandler, deleteHandler
         </div>
         <div>
             <input onChange={() => updateHandler(id)} type="checkbox" checked={isCompleted} />
-            <button onClick={() => {deleteHandler(id)}} className="btn">Delete</button>
+            <button onClick={() => deleteHandler(id)} className="btn">Delete</button>
         </div>
     </div>;
 }
